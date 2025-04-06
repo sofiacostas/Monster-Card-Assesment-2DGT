@@ -74,15 +74,16 @@ def add_card(): #Able to add a new card
     stats = ["Strength", "Speed", "Stealth", "Cunning"]
 
     for stat in stats:
-        power = int(input(f"Enter power value for {stat}: "))
+        power = int(input(f"Enter a numerical power value for {card_name}'s {stat}: "))
         catalogue[card_name][stat] = power
 
 
-def search_card():
-    print("---CURRENT CARDS---")
+def search_card(): #Search for a specific card and show its values
+    print("\n---CURRENT CARDS---")
     for key, value in catalogue.items():
         print(key)
     card_name = input("Search for card: ")
+    card_name = card_name.capitalize()
     if card_name in catalogue:
         print(f"\n--{card_name}--")
         for stat, power in catalogue[card_name].items():
@@ -91,7 +92,20 @@ def search_card():
     else:
         print("Card not found")
 
-    
+
+def delete_card(): #Delete a chosen card
+    print("\n---CURRENT CARDS---")
+    for key, value in catalogue.items():
+        print(key)
+    card_name = input("Enter the card you want to delete: ")
+    card_name = card_name.capitalize()
+    if card_name in catalogue:
+        print(f"{card_name} card has been deleted")
+    else:
+        print("Please input a valid card")
+
+    del catalogue[card_name]
+
 
 while True: 
     print("\n---MONSTER CARDS---")
@@ -102,11 +116,14 @@ while True:
     if number == 1: #When user inputs 1 it runs the function 'show_card'
         show_card()
 
-    elif number == 2:
+    elif number == 2: #When user inputs 2 it runs the function 'add_card'
         add_card()
 
-    elif number ==3:
+    elif number == 3: #When user inputs 3 it runs the function 'search_card'
         search_card()
+
+    elif number == 4: #When user inputs 4 it runs the function 'delete_card'
+        delete_card()
 
     elif number == 5: #Quit/ends the code
         print("Thank you for using MONSTER CARDS")
