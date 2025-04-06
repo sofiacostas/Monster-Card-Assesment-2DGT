@@ -74,7 +74,12 @@ def add_card(): #Able to add a new card
     stats = ["Strength", "Speed", "Stealth", "Cunning"]
 
     for stat in stats:
-        power = int(input(f"Enter a numerical power value for {card_name}'s {stat}: "))
+        while True:
+            try:
+                power = int(input(f"Enter a numerical value for {card_name}'s {stat}: "))
+                break
+            except ValueError:
+                print("Invalid input! Please input a number")
         catalogue[card_name][stat] = power
 
 
@@ -111,7 +116,13 @@ while True:
     print("\n---MONSTER CARDS---")
     print("-Please type in a number between 1-5 to navigate-")
     print("1 Show Card(s)" "\n2 Add Card" "\n3 Search Card" "\n4 Delete Card" "\n5 Quit")
-    number = int(input("Enter a number: "))
+    while True:
+        try:
+            number = int(input("Enter a number: "))
+            break
+        except ValueError:
+            print("\nInvalid input! Please input a number between 1-5")
+            print("1 Show Card(s)" "\n2 Add Card" "\n3 Search Card" "\n4 Delete Card" "\n5 Quit")
 
     if number == 1: #When user inputs 1 it runs the function 'show_card'
         show_card()
