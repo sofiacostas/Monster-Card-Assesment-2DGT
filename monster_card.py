@@ -76,9 +76,14 @@ def add_card(): #Able to add a new card
     for stat in stats:
         while True:
             try:
-                power = int(input(f"Enter a numerical value for {card_name}'s {stat}: "))
-                break
-            except ValueError:
+                power = int(input(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: "))
+                if power > 25: #If power input more than 25 it says invalid and loops back to power input
+                    print("Invalid input! Please input a number between 1-25")
+                elif power < 1: #If power input less than 1 it says invalid and loops back to power input
+                    print("Invalid input! Please input a number between 1-25")
+                else:   
+                    break
+            except ValueError: #If a non number is put it says invalid and loops back to power input
                 print("Invalid input! Please input a number")
         catalogue[card_name][stat] = power
 
