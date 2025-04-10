@@ -59,6 +59,19 @@ catalogue = {"Stoneling":
         "Cunning": 2,},
         }
 
+def range_stats(card_name,catalogue): #Asks the user the power they want to input for each of the 4 stats
+    stats = ["Strength", "Speed", "Stealth", "Cunning"] #The 4 stats
+    for stat in stats:
+        while True:
+            try:
+                power = int(input(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: "))
+                if 1 <= power <= 25: #Sees if power value is between 1-25
+                    break
+                else:
+                    print("Invalid input! Please input a number between 1-25")
+            except ValueError: #If a non number is put it says invalid and loops back to power input
+                print("Invalid input! Please input a number between 1-25")
+        catalogue[card_name][stat] = power
 
 
 def show_card(): #Shows the card and their values (stats/power)
@@ -73,21 +86,7 @@ def add_card(): #Able to add a new card
     card_name = input("Enter name of new card: ")
     card_name = card_name.capitalize()
     catalogue[card_name] = {}
-    stats = ["Strength", "Speed", "Stealth", "Cunning"]
-
-    for stat in stats:
-        while True:
-            try:
-                power = int(input(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: "))
-                if power > 25: #If power input more than 25 it says invalid and loops back to power input
-                    print("Invalid input! Please input a number between 1-25")
-                elif power < 1: #If power input less than 1 it says invalid and loops back to power input
-                    print("Invalid input! Please input a number between 1-25")
-                else:   
-                    break
-            except ValueError: #If a non number is put it says invalid and loops back to power input
-                print("Invalid input! Please input a number")
-        catalogue[card_name][stat] = power
+    range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
 
 
 def search_card(): #Search for a specific card and show its values
@@ -97,12 +96,12 @@ def search_card(): #Search for a specific card and show its values
     card_name = input("Search for card: ")
     card_name = card_name.capitalize()
     if card_name in catalogue:
-        print(f"\n--{card_name}--")
+        print(f"\n--{card_name}--") #Shows card's name
         for stat, power in catalogue[card_name].items():
-            print(f"{stat}: {power}")
+            print(f"{stat}: {power}") #Shows card's values (stats/power)
 
     else: #If a card not in the catalogue is inputted it loops here until a valid card is inputted
-        while card_name not in catalogue:
+        while card_name not in catalogue: 
             print("Please input a valid card")
             card_name = input("Enter the card you want to search: ")
             card_name = card_name.capitalize()  
@@ -110,6 +109,13 @@ def search_card(): #Search for a specific card and show its values
         for stat, power in catalogue[card_name].items(): 
             message += (f"{stat}: {power}\n")
         print(message)
+
+    change = input(f"Would you like to change {card_name}'s values? Y/N: ") #To see if they want to change the card they searched values
+    change = change.capitalize()
+    if change == "Y": 
+       range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
+    elif change == "N":
+        breakpoint
 
 
 def delete_card(): #Delete a chosen card
@@ -127,7 +133,7 @@ def delete_card(): #Delete a chosen card
             card_name = input("Enter the card you want to delete: ")
             card_name = card_name.capitalize()
         print(f"{card_name} card has been deleted")
-    del catalogue[card_name]
+    del catalogue[card_name] #Deletes the card from the catalogue
 
 
 while True: 
