@@ -95,6 +95,7 @@ def add_card(): #Able to add a new card
     card_name = card_name.capitalize()
     catalogue[card_name] = {}
     range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
+    eg.msgbox(f"Added {card_name} to catalogue!", "Add Card")
 
 
 def search_card(): #Search for a specific card and show its values

@@ -87,6 +87,7 @@ def add_card(): #Able to add a new card
     card_name = card_name.capitalize()
     catalogue[card_name] = {}
     range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
+    print(f"Added {card_name} to catalogue!")
 
 
 def search_card(): #Search for a specific card and show its values
@@ -136,15 +137,15 @@ def delete_card(): #Delete a chosen card
     del catalogue[card_name] #Deletes the card from the catalogue
 
 
+print("---WELCOME TO MONSTER CARDS---")
 while True: 
-    print("\n---MONSTER CARDS---")
-    print("-Please type in a number between 1-5 to navigate-")
+    print("\n-Please type in a number between 1-5 to navigate-")
     print("1 Show Card(s)" "\n2 Add Card" "\n3 Search Card" "\n4 Delete Card" "\n5 Quit")
     while True:
         try:
             number = int(input("Enter a number: "))
             break
-        except ValueError: #If non number is inputted it loops until a number is inputted
+        except ValueError: #If non integer is inputted it loops until a number is inputted
             print("\nInvalid input! Please input a number between 1-5")
             print("1 Show Card(s)" "\n2 Add Card" "\n3 Search Card" "\n4 Delete Card" "\n5 Quit")
 
