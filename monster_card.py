@@ -59,12 +59,14 @@ catalogue = {"Stoneling":
         "Cunning": 2,},
         }
 
+
+
 def show_card(): #Shows the card and their values (stats/power)
     print("\n---CARDS---")
     for key, value in catalogue.items():
-        print(f"\n--{key}--")
-        for stat, power in value.items():
-            print(f"{stat}: {power}")
+        print(f"\n--{key}--")  #Prints the name of the card eg. 'Wispghoul'
+        for stat, power in value.items(): 
+            print(f"{stat}: {power}")  #Prints the values of the card 
 
 
 def add_card(): #Able to add a new card
@@ -99,8 +101,15 @@ def search_card(): #Search for a specific card and show its values
         for stat, power in catalogue[card_name].items():
             print(f"{stat}: {power}")
 
-    else:
-        print("Card not found")
+    else: #If a card not in the catalogue is inputted it loops here until a valid card is inputted
+        while card_name not in catalogue:
+            print("Please input a valid card")
+            card_name = input("Enter the card you want to search: ")
+            card_name = card_name.capitalize()  
+            message = (f"--{card_name}--\n") 
+        for stat, power in catalogue[card_name].items(): 
+            message += (f"{stat}: {power}\n")
+        print(message)
 
 
 def delete_card(): #Delete a chosen card
@@ -111,9 +120,13 @@ def delete_card(): #Delete a chosen card
     card_name = card_name.capitalize()
     if card_name in catalogue:
         print(f"{card_name} card has been deleted")
-    else:
-        print("Please input a valid card")
 
+    else: #If a card not in the catalogue is inputted it loops here until a valid card is inputted
+        while card_name not in catalogue:
+            print("Please input a valid card")
+            card_name = input("Enter the card you want to delete: ")
+            card_name = card_name.capitalize()
+        print(f"{card_name} card has been deleted")
     del catalogue[card_name]
 
 
@@ -125,7 +138,7 @@ while True:
         try:
             number = int(input("Enter a number: "))
             break
-        except ValueError:
+        except ValueError: #If non number is inputted it loops until a number is inputted
             print("\nInvalid input! Please input a number between 1-5")
             print("1 Show Card(s)" "\n2 Add Card" "\n3 Search Card" "\n4 Delete Card" "\n5 Quit")
 
