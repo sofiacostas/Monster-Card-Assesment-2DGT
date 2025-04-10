@@ -66,26 +66,33 @@ def range_stats(card_name,catalogue): #Asks the user the power they want to inpu
     for stat in stats:
         while True:
             try:
-                power = int(input(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: "))
-                if 1 <= power <= 25: #Sees if power value is between 1-25
+                power = eg.integerbox(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: ")
+                if power is None: #If user clicks cancel it goes back to navigation screen
+                    del catalogue[card_name]
+                    return
+                elif 1 <= power <= 25: #Sees if power value is between 1-25
                     break
                 else:
-                    print("Invalid input! Please input a number between 1-25")
+                    eg.msgbox("Invalid input! Please input a number between 1-25")
             except ValueError: #If a non number is put it says invalid and loops back to power input
-                print("Invalid input! Please input a number between 1-25")
+                eg.msgbox("Invalid input! Please input a number between 1-25")
         catalogue[card_name][stat] = power
 
 
 def show_card(): #Shows the card and their values (stats/power)
-    print("\n---CARDS---")
-    for key, value in catalogue.items():
-        print(f"\n--{key}--")  #Prints the name of the card eg. 'Wispghoul'
-        for stat, power in value.items(): 
-            print(f"{stat}: {power}")  #Prints the values of the card 
+    message = ""
+    for card, values in catalogue.items():
+        message += f"\n{card}:\n"  
+        for stat, power in values.items(): 
+            message += f"{stat}: {power}\n"  #Is the values of the cards
+    eg.codebox("All Current Cards and its Stats", "Show Card(s)", message) #Shows the values of the cards
 
 
 def add_card(): #Able to add a new card
-    card_name = input("Enter name of new card: ")
+    card_name = eg.enterbox("Enter name of new card: ")
+    if card_name is None: #If user clicks cancel it goes back to navigation screen
+        del catalogue[card_name]
+        return
     card_name = card_name.capitalize()
     catalogue[card_name] = {}
     range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
@@ -138,9 +145,9 @@ def delete_card(): #Delete a chosen card
     del catalogue[card_name] #Deletes the card from the catalogue
 
 
-eg.msgbox("Welcome to MONSTER CARDS")
+eg.msgbox("Welcome to MONSTER CARDS","Title Screen")
 while True:
-    choice = eg.buttonbox("Click on one of the buttons to navigate", choices = ["Show Card(s)", "Add Card", "Search Card", "Delete Card", "Quit"]) #Shows the choices as buttons which will lead to the function
+    choice = eg.buttonbox("Click on one of the buttons to navigate","Navigation Screen", choices = ["Show Card(s)", "Add Card", "Search Card", "Delete Card", "Quit"]) #Shows the choices as buttons which will lead to the function
 
     if choice == "Show Card(s)": #When user clicks "Show Card(s)" it runs the function 'show_card'
         show_card()
@@ -155,5 +162,5 @@ while True:
         delete_card()
 
     elif choice == "Quit": #Quit/ends the code
-        eg.msgbox("Thank you for using MONSTER CARDS")
+        eg.msgbox("Thank you for using MONSTER CARDS", "Quit")
         break
