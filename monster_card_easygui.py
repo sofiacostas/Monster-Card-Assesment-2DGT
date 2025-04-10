@@ -66,10 +66,9 @@ def range_stats(card_name,catalogue): #Asks the user the power they want to inpu
     for stat in stats:
         while True:
             try:
-                power = eg.integerbox(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: ")
+                power = eg.integerbox(f"Enter a numerical value from 1-25 for {card_name}'s {stat}: ", "Values")
                 if power is None: #If user clicks cancel it goes back to navigation screen
-                    del catalogue[card_name]
-                    return
+                    return 
                 elif 1 <= power <= 25: #Sees if power value is between 1-25
                     break
                 else:
@@ -82,44 +81,49 @@ def range_stats(card_name,catalogue): #Asks the user the power they want to inpu
 def show_card(): #Shows the card and their values (stats/power)
     message = ""
     for card, values in catalogue.items():
-        message += f"\n{card}:\n"  
+        message += f"\n--{card}--\n"  
         for stat, power in values.items(): 
             message += f"{stat}: {power}\n"  #Is the values of the cards
     eg.codebox("All Current Cards and its Stats", "Show Card(s)", message) #Shows the values of the cards
 
 
 def add_card(): #Able to add a new card
-    card_name = eg.enterbox("Enter name of new card: ")
+    card_name = eg.enterbox("Enter name of new card: ", "Add Card")
     if card_name is None: #If user clicks cancel it goes back to navigation screen
-        del catalogue[card_name]
         return
+        del catalogue[card_name]
     card_name = card_name.capitalize()
     catalogue[card_name] = {}
     range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
 
 
 def search_card(): #Search for a specific card and show its values
-    print("\n---CURRENT CARDS---")
-    for key, value in catalogue.items():
-        print(key)
-    card_name = input("Search for card: ")
+    card_name = eg.enterbox("Search for card: ", "Search Card")
+    if card_name is None:
+        return
     card_name = card_name.capitalize()
     if card_name in catalogue:
-        print(f"\n--{card_name}--") #Shows card's name
-        for stat, power in catalogue[card_name].items():
-            print(f"{stat}: {power}") #Shows card's values (stats/power)
+        card_data = catalogue[card_name]
+        message = ""
+        for stat, power in card_data.items():
+            message += (f"{stat}: {power}\n") #Is the card's values (stats/power)
+        eg.msgbox(message, "Card Values")
 
     else: #If a card not in the catalogue is inputted it loops here until a valid card is inputted
         while card_name not in catalogue: 
-            print("Please input a valid card")
-            card_name = input("Enter the card you want to search: ")
+            eg.msgbox("Please input a valid card", "Invalid Input")
+            card_name = eg.enterbox("Enter the card you want to search: ", "Change")
+            if card_name is None:
+                return
             card_name = card_name.capitalize()  
             message = (f"--{card_name}--\n") 
         for stat, power in catalogue[card_name].items(): 
             message += (f"{stat}: {power}\n")
-        print(message)
+        eg.msgbox(message, "Card Values")
 
-    change = input(f"Would you like to change {card_name}'s values? Y/N: ") #To see if they want to change the card they searched values
+    change = eg.enterbox(f"Would you like to change {card_name}'s values? Y/N: ", "Change Value") #To see if they want to change the card they searched values
+    if change is None:
+        return
     change = change.capitalize()
     if change == "Y": 
        range_stats(card_name, catalogue) #Calls function which asks for the values and checks if the values are between 1-25
@@ -128,20 +132,21 @@ def search_card(): #Search for a specific card and show its values
 
 
 def delete_card(): #Delete a chosen card
-    print("\n---CURRENT CARDS---")
-    for key, value in catalogue.items():
-        print(key)
-    card_name = input("Enter the card you want to delete: ")
+    card_name = eg.enterbox("Enter the card you want to delete: ", "Delete Card")
+    if card_name is None:
+        return
     card_name = card_name.capitalize()
     if card_name in catalogue:
-        print(f"{card_name} card has been deleted")
+        eg.msgbox(f"{card_name} card has been deleted", "Delete Card")
 
     else: #If a card not in the catalogue is inputted it loops here until a valid card is inputted
         while card_name not in catalogue:
-            print("Please input a valid card")
-            card_name = input("Enter the card you want to delete: ")
+            eg.msgbox("Please input a valid card")
+            card_name = eg.enterbox("Enter the card you want to delete: ", "Delete Card")
+            if card_name is None:
+                return
             card_name = card_name.capitalize()
-        print(f"{card_name} card has been deleted")
+        eg.msgbox(f"{card_name} card has been deleted", "Delete Card")
     del catalogue[card_name] #Deletes the card from the catalogue
 
 
